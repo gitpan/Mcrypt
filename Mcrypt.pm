@@ -162,7 +162,11 @@ sub init {
 
 sub end {
   my($self) = shift;
-  return mcrypt_end($self->{TD});
+  my $ret = 0;
+  $ret = mcrypt_end($self->{TD})
+    if($self->{Initialized} && $self->{TD});
+  $self->{TD} = 0;
+  return $ret;
 }
 
 sub encrypt {

@@ -1,4 +1,4 @@
-Mcrypt Version 2.4.8.1
+Mcrypt Version 2.4.8.2
 ========================
 
 DESCRIPTION
@@ -11,8 +11,8 @@ decoding perl scalars.
 PREREQUISITES
 -------------
 
-Mcrypt-x.y.z.r requires libmcrypt version x.y.z.  It may or maynot work with
-other versions of libmcrypt.
+Mcrypt-x.y.z.r requires libmcrypt version x.y.z.  It may or may not work with
+other versions of libmcrypt -- YMMV.
 
 It also requires Perl 5.
 

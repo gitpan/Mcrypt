@@ -1,0 +1,2 @@
+2.4.8.1 -- initial release.
+2.4.8.2 -- fix accidental double mcrypt_end'ing which using strict.
