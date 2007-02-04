@@ -1,9 +1,9 @@
 # Filename: Mcrypt.pm
 # Author:   Theo Schlossnagle <jesus@omniti.com>
 # Created:  17th January 2001
-# Version:  2.4.8.1
+# Version:  2.4.8.3
 #
-# Copyright (c) 1999 Theo Schlossnagle. All rights reserved.
+# Copyright (c) 1999,2001,2007 Theo Schlossnagle. All rights reserved.
 #   This program is free software; you can redistribute it and/or
 #   modify it under the same terms as Perl itself.
 #
@@ -20,7 +20,7 @@ use Carp;
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $AUTOLOAD);
 
-$VERSION = "2.4.8.1" ;
+$VERSION = "2.4.8.3" ;
 
 @ISA = qw(Exporter DynaLoader);
 
@@ -114,6 +114,10 @@ sub AUTOLOAD {
 
     my $constname;
     ($constname = $AUTOLOAD) =~ s/.*:://;
+    if($constname eq 'constant') {
+        # This will recurse!
+	croak "Problem loading Mcrypt libraries";
+    }
     my $val = constant($constname, @_ ? $_[0] : 0);
     if ($! != 0) {
         if ($! =~ /Invalid/) {

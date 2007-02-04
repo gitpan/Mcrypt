@@ -1,7 +1,7 @@
 /* Filename: Mcrypt.xs
  * Author:   Theo Schlossnagle <jesus@omniti.com>
  * Created:  17th January 2001
- * Version:  2.4.8.1
+ * Version:  2.4.8.3
  *
  * Copyright (c) 1999 Theo Schlossnagle. All rights reserved.
  *   This program is free software; you can redistribute it and/or
