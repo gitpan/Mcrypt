@@ -1,14 +1,11 @@
 #!/usr/bin/perl
 
-# 9 tests for each alg/mode
+use Test::More tests => 210;
 
 @algs = qw (BLOWFISH
 		DES
 		3DES
-		3WAY
 		GOST
-		SAFER_SK64
-		SAFER_SK128
 		CAST_128
 		XTEA
 		RC2
@@ -24,34 +21,24 @@
 @modes = qw (CFB
              OFB);
 
-$totaltests = 9*scalar(@algs)*scalar(@modes);
-
-BEGIN { $| = 1 }
-END {print "not ok 1\n" unless ($loaded > 1);}
-
-print "1..$totaltests\n";
-
 use Mcrypt qw(:ALGORITHMS :MODES :FUNCS);
 
 $loaded = 1;
 sub doit {
   my($method, $alg, $mode, $infile, $outfile) = @_;
   my($td) = Mcrypt::mcrypt_load( $alg, "", $mode, "");
-  (($loaded+=4) && return 0) unless($td);
-  print "ok $loaded\n"; $loaded++;
+  ok($td, "Loaded $alg/$mode");
   $keysize = Mcrypt::mcrypt_get_key_size($td);
   $ivsize = Mcrypt::mcrypt_get_iv_size($td);
   my($key) = "k" x $keysize;
   my($iv) = "i" x $ivsize;
-  Mcrypt::mcrypt_init($td, $key, $iv) || (($loaded+=3) && return 0);
-  print "ok $loaded\n"; $loaded++;
+  my $i = eval { Mcrypt::mcrypt_init($td, $key, $iv); };
+  ok($i && !$@, "initialized");
   open(IN,  "<$infile" ) || (($loaded+=2) && return 0);
   open(OUT, ">$outfile") || (($loaded+=2) && return 0);
   if($method eq "encrypt") {
     while(<IN>) {
-#      print "In: ".length($_);
       $out = Mcrypt::mcrypt_encrypt($td, $_);
-#      print " Out: ".length($out)."\n";
       print OUT $out;
     }
   } else {
@@ -60,10 +47,8 @@ sub doit {
     }
   }
   close(IN) && close(OUT);
-  print "ok $loaded\n"; $loaded++;
-  Mcrypt::mcrypt_end($td);
-  print "ok $loaded\n"; $loaded++;
-  return 1;
+  eval { Mcrypt::mcrypt_end($td); };
+  ok(!$@, "destroyed");
 }
 
 sub testam {
@@ -78,7 +63,7 @@ undef($/);
   $file1 = <FILE>;
 $/ = $oldis;
   close(FILE);
-  open(FILE, "<t/testfile.2") || return 0;
+  open(FILE, "<t/testfile.2");
 $oldis = $/;
 undef($/);
   $file2 = <FILE>;
@@ -86,21 +71,12 @@ $/ = $oldis;
   close(FILE);
   unlink("t/testfile.2");
 
-  if($file1 ne $file2) {
-    return 0;
-  } else {
-    return 1;
-  }
+  is $file1, $file2, "crypto worked";
 }
 foreach $alg (@algs) {
   $valg = eval "{ Mcrypt::$alg }";
   foreach $mode (@modes) {
     $vmode = eval "{ Mcrypt::$mode }";
-    $result = testam($valg, $vmode);
-    if($result) {
-      print "ok $loaded ($valg/$mode)\n"; $loaded++;
-    } else {
-      print "not ok $loaded\n"; $loaded++;
-    }
+    testam($valg, $vmode);
   }
 }

@@ -1,7 +1,7 @@
 /* Filename: Mcrypt.xs
  * Author:   Theo Schlossnagle <jesus@omniti.com>
  * Created:  17th January 2001
- * Version:  2.4.8.3
+ * Version:  2.5.7.0
  *
  * Copyright (c) 1999 Theo Schlossnagle. All rights reserved.
  *   This program is free software; you can redistribute it and/or
@@ -52,12 +52,6 @@ int arg;
 	if(strEQ(name, "3DES"))
 #ifdef MCRYPT_3DES
 		return newSVpv(MCRYPT_3DES, 0);
-#else
-		goto not_there;
-#endif
-	if(strEQ(name, "3WAY"))
-#ifdef MCRYPT_3WAY
-		return newSVpv(MCRYPT_3WAY, 0);
 #else
 		goto not_there;
 #endif
@@ -188,18 +182,6 @@ int arg;
 	if(strEQ(name, "SAFERPLUS"))
 #ifdef MCRYPT_SAFERPLUS
 		return newSVpv(MCRYPT_SAFERPLUS, 0);
-#else
-		goto not_there;
-#endif
-	if(strEQ(name, "SAFER_SK128"))
-#ifdef MCRYPT_SAFER_SK128
-		return newSVpv(MCRYPT_SAFER_SK128, 0);
-#else
-		goto not_there;
-#endif
-	if(strEQ(name, "SAFER_SK64"))
-#ifdef MCRYPT_SAFER_SK64
-		return newSVpv(MCRYPT_SAFER_SK64, 0);
 #else
 		goto not_there;
 #endif

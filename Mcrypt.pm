@@ -1,7 +1,7 @@
 # Filename: Mcrypt.pm
 # Author:   Theo Schlossnagle <jesus@omniti.com>
 # Created:  17th January 2001
-# Version:  2.4.8.3
+# Version:  2.5.7.0
 #
 # Copyright (c) 1999,2001,2007 Theo Schlossnagle. All rights reserved.
 #   This program is free software; you can redistribute it and/or
@@ -20,7 +20,7 @@ use Carp;
 use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS $AUTOLOAD);
 
-$VERSION = "2.4.8.3" ;
+$VERSION = "2.5.7.0" ;
 
 @ISA = qw(Exporter DynaLoader);
 
@@ -29,10 +29,7 @@ $VERSION = "2.4.8.3" ;
 		ALGORITHMS => [ qw(BLOWFISH
 				   DES
 				   3DES
-				   3WAY
 				   GOST
-				   SAFER_SK64
-				   SAFER_SK128
 				   CAST_128
 				   XTEA
 				   RC2
@@ -71,10 +68,7 @@ $VERSION = "2.4.8.3" ;
 		BLOWFISH
 		DES
 		3DES
-		3WAY
 		GOST
-		SAFER_SK64
-		SAFER_SK128
 		CAST_128
 		XTEA
 		RC2
@@ -268,7 +262,7 @@ The predefined groups of exports in the use statements are as follows:
 
 use Mcrypt qw(:ALGORITHMS);
 
-Exports the BLOWFISH DES 3DES 3WAY GOST SAFER_SK64 SAFER_SK128
+Exports the BLOWFISH DES 3DES GOST 
 CAST_128 XTEA RC2 TWOFISH CAST_256 SAFERPLUS LOKI97 SERPENT
 RIJNDAEL_128 RIJNDAEL_192 RIJNDAEL_256 ENIGMA ARCFOUR WAKE libmcrypt
 algorithms.  See the mcrypt(3) man page for more details.
